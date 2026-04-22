@@ -1,0 +1,18 @@
+name: "Rich Baird PhD(c)"
+title: "Computational Imaging, Signal Processing, & Optics"
+summary: >
+  I develop end-to-end ~~computational imaging~~ systems that utilize the properties of light to capture information from the microscopic to the interplanetary. By engineering both the ~~optical~~ encoding and the underlying ~~numerical~~ and ~~machine learning~~ algorithms, I enable high-fidelity data recovery for diverse scientific applications.
+affiliation: > 
+  PhD Candidate, Department of Electrical and Computer Engineering
+  University of Utah
+  National Defense Science and Engineering Graduate (NDSEG) Fellow
+profile_image: "images/profile.png"
+highlights:
+  - "Computer Vision for Object Detection and Classification"
+  - "Neuromorphic Hardware and Signal Processing"
+  - "Numerical Statistics and Probabilities"
+links:
+  - label: "Github"
+    url: "https://github.com/menonlab-rich"
+  - label: "Google Scholar"
+    url: "https://scholar.google.com/citations?user=8EGX5NAAAAAJ&hl=en"

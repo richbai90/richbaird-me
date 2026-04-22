@@ -1,0 +1,17 @@
+items:
+  - date: "March 2026"
+    detail: "Paper \"Asynchronous-spectral fusion fluorescence microscopy for microsecond-scale behavioral dynamics\" submitted to Optics Letters for publication."
+    badges: ["New", "Paper"]
+  
+  - date: "August 2025"
+    detail: "Awarded the National Defense Science and Engineering Graduate (NDSEG) Fellowship to continue research into space domain awareness utilizing high-speed neuromorphic hardware."
+    badges: ["Award"]
+ 
+  - date: "May 2025"
+    detail: "Invited to attend CLEO Conference in Long Beach California. I will be speaking on our ongoing research into neuromorphic imaging for high-speed multispectral fluoresence microscopy."
+    badges: ["Conference"]
+  
+  - date: "January 2025"
+    detail: "Paper \"Dynamic Spectral fluorescence microscopy via Event-based & CMOS image-sensor fusion\" accepted for publication in Optics Express."
+    badges: ["Paper"]
+  

@@ -1,0 +1,69 @@
+themesDir = "themes"
+baseURL = 'https://yajie-xu.github.io/hugo-celadon/'
+languageCode = 'en-us'
+title = 'Rich Baird'
+theme = 'celadon'
+enableRobotsTXT = true
+
+[params]
+  description = 'Computational Archaeologist weaving ancient history with modern algorithms.'
+  email = 'alex@example.com'
+  location = 'Tampa, USA'
+
+[params.homepage]
+  sections = ["hero", "news", "research", "writing"]
+
+  [params.homepage.hero]
+    enable = true
+    layout = "hero"
+    title = "About"
+
+  [params.homepage.news]
+    enable = true
+    layout = "news"
+    title = "News"
+
+  [params.homepage.research]
+    enable = true
+    layout = "cards"
+    title = "Research"
+
+  [params.homepage.writing]
+    enable = true
+    layout = "grid"
+    title = "Writing"
+
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        enableInShortcodes = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [
+            ["\\[", "\\]"],
+            ["$$", "$$"]
+          ]
+          inline = [
+            ["\\(", "\\)"],
+            ["$", "$"]
+          ]
+  [markup.highlight]
+    style = "friendly"
+    noClasses = false
+    lineNos = true
+    guessSyntax = true
+
+# ---------------------------------------------------------
+# CASCADING DEFAULTS
+# This applies settings to ALL files in the 'content' folder
+# ---------------------------------------------------------
+
+[[cascade]]
+  layout = "single"      # 1. The Rule: Use single.html
+  [cascade._target]
+    path = "/**"         # 2. The Scope: Inside any folder (** = "Recursive" - go as deep as you want)
+    kind = "page"        # 3. The Filter: But ONLY for regular text files (not list nor home pages)

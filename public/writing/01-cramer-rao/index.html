@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/hugo-celadon/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=hugo-celadon/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fisher Information Analysis of Dynamic Vision Sensors | Rich Baird</title>
+<meta name="description" content="Computational Archaeologist weaving ancient history with modern algorithms.">
+
+<meta name="theme-color" content="#7DA2A9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1C1E" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="/hugo-celadon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/hugo-celadon/favicon.svg">
+<link rel="shortcut icon" href="/hugo-celadon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-celadon/apple-touch-icon.png">
+<link rel="manifest" href="/hugo-celadon/site.webmanifest">
+
+
+<link rel="stylesheet" href="http://localhost:1313/hugo-celadon/css/main.min.0343e6ce964403459d1d47fd0b1fbab7789c74380142897fb91d98d8a92983b1.css" integrity="sha256-A0PmzpZEA0WdHUf9Cx&#43;6t3icdDgBQol/uR2Y2Kkpg7E=">
+
+<link rel="stylesheet" href="http://localhost:1313/hugo-celadon/vendor/katex/katex.min.css">
+<script defer src="http://localhost:1313/hugo-celadon/vendor/katex/katex.min.js"></script>
+<script defer src="http://localhost:1313/hugo-celadon/vendor/katex/auto-render.min.js"></script>
+
+  </head>
+  <body data-theme="light">
+    <div class="page-shell">
+      <nav class="morandi-nav">
+        <div class="brand">
+          <span class="dot"></span>
+          <a href="http://localhost:1313/hugo-celadon/">Rich Baird</a>
+        </div>
+        <div class="nav-links">
+          <a href="http://localhost:1313/hugo-celadon/">Home</a>
+          
+            
+            
+            
+              
+                <a href="http://localhost:1313/hugo-celadon/#hero">About</a>
+              
+            
+          
+            
+            
+            
+              
+                <a href="http://localhost:1313/hugo-celadon/#news">News</a>
+              
+            
+          
+            
+            
+            
+              
+                <a href="http://localhost:1313/hugo-celadon/#research">Research</a>
+              
+            
+          
+            
+            
+            
+              
+                <a href="http://localhost:1313/hugo-celadon/#writing">Writing</a>
+              
+            
+          
+        </div>
+        <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+          <span class="icon" data-icon-sun>☼</span>
+          <span class="icon" data-icon-moon>☾</span>
+        </button>
+      </nav>
+
+      <main class="main-container">
+        
+  <div class="article-shell">
+    <a class="article-back" href="/hugo-celadon/writing/">← Back</a>
+    <header class="article-head">
+      <p class="article-date">Nov 10, 2025</p>
+      <h1 class="article-title">Fisher Information Analysis of Dynamic Vision Sensors</h1>
+    </header>
+    <article class="article-content markdown-body">
+      <h2 id="1-optical-projection-model">1. Optical Projection Model</h2>
+<p>The authors of [1] propose a <strong>Cramer-Rao Lower Bound (CRLB)</strong> for the precision of 3D object positioning from an event sensor, given a known <strong>Point-Spread Function (PSF)</strong>.</p>
+<h3 id="ideal-and-blurred-images">Ideal and Blurred Images</h3>
+<p>The ideal image $I_t$ at time $t$ is modeled as a Dirac delta function on the sensor plane $(u, v)$:
+</p>
+$$I_t(u, v) = \delta\left(u - \frac{f}{z}x(t), v - \frac{f}{z}y(t)\right) = \delta(u - u_0, v - v_0)$$<p>To account for optical blur, the real image $I^b_t$ is the convolution of the depth-variant PSF $h_z(t)$ with the ideal image:
+</p>
+$$I_t^b(u,v) = [h_z(t) * I_t](u, v)$$<h3 id="coordinate-mapping">Coordinate Mapping</h3>
+<p>The mapping of 3D coordinates $(x, y, z)$ to sensor coordinates $(u, v)$ is defined by the focal length $f$ and the object depth $z + \Delta z(t)$:
+</p>
+$$u = f \frac{x(t)}{z + \Delta z(t)}, \quad v = f \frac{y(t)}{z + \Delta z(t)}$$<p>Assuming $f$ and $z$ are constant over small intervals, we use a scaling factor $S = \frac{f}{z}$ to approximate the projection:
+</p>
+$$(u, v) \approx S \cdot (x(t), y(t))$$<hr>
+<h2 id="2-event-measurement-model">2. Event Measurement Model</h2>
+<p>Event cameras respond to changes in log-intensity. For accumulated events over a sufficiently long interval $\tau$, the measurement $O_t$ is approximately the log-difference of the blurred intensity:
+</p>
+$$O_{t} = \log(I_{t}^{b}) - \log(I_{t-\tau}^{b})$$<h3 id="fisher-information-framework">Fisher Information Framework</h3>
+<p>The Fisher Information Matrix (FIM) $\mathcal{I}(\theta)$ measures the amount of information an observable random variable $X$ carries about an unknown parameter $\theta$:
+</p>
+$$\mathcal{I}(\theta)_{i,j} = \mathbb{E} \left[ \left( \frac{\partial}{\partial \theta_i} \log f(X; \theta) \right) \left( \frac{\partial}{\partial \theta_j} \log f(X; \theta) \right) \Bigg| \theta \right]$$<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Component</th>
+          <th style="text-align: left">Physical Meaning</th>
+          <th style="text-align: left">Role in Optimization</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Parameter</strong> $\theta$</td>
+          <td style="text-align: left">Ground-truth 3D positions $\{x, y, z\}$ at $t$ and $t-\tau$.</td>
+          <td style="text-align: left">The variables to be estimated.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Ideal</strong> $I_t$</td>
+          <td style="text-align: left">Perfect pin-hole projection (Dirac Delta).</td>
+          <td style="text-align: left">The input to the optical model.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>PSF</strong> $h_z$</td>
+          <td style="text-align: left">Depth-dependent blur pattern.</td>
+          <td style="text-align: left">The engineered design variable.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Image</strong> $I_t^b$</td>
+          <td style="text-align: left">The &ldquo;clean&rdquo; blurred frame (mean $\lambda$).</td>
+          <td style="text-align: left">The mean of the distribution.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Measurement</strong> $X$</td>
+          <td style="text-align: left">The noisy, binned event frame $O_t$.</td>
+          <td style="text-align: left">The actual observed data.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>PDF</strong> $f$</td>
+          <td style="text-align: left">Generative noise model (Normal).</td>
+          <td style="text-align: left">Tool for calculating information.</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="3-statistical-approximation">3. Statistical Approximation</h2>
+<p>Given a sufficiently large intensity $\lambda$, we approximate the Poisson distribution of photon counts as a Normal distribution:
+</p>
+$$X \sim \text{Poisson}(\lambda) \approx \mathcal{N}(\lambda, \lambda)$$<h3 id="the-delta-method-for-ratios">The Delta Method for Ratios</h3>
+<p>Since the measurement involves the ratio of two independent Poisson variables $X = I^b_t$ and $Y = I^b_{t-\tau}$, we use the <strong>Delta Method</strong> (first-order Taylor expansion) to approximate the mean and variance:</p>
+$$\mathbb{E}\left[\frac{X}{Y}\right] \approx \frac{\mu_X}{\mu_Y}, \quad \text{Var}\left(\frac{X}{Y}\right) \approx \frac{\text{Var}(X)}{\mu_Y^2} + \frac{\mu_X^2 \text{Var}(Y)}{\mu_Y^4}$$<p>Substituting $\text{Var}(I) = \mathbb{E}[I] = \lambda$:</p>
+<ul>
+<li><strong>Mean</strong> ($\mu$): $\frac{\lambda_t}{\lambda_{t-\tau}}$</li>
+<li><strong>Variance</strong> ($\sigma^2$): $\frac{\lambda_t}{\lambda_{t-\tau}^2} + \frac{\lambda_t^2}{\lambda_{t-\tau}^3}$</li>
+</ul>
+<p>This leads to the Normal approximation of the measurement ratio:
+</p>
+$$\frac{I^b_t}{I^b_{t-\tau}} \sim \mathcal{N}\left(\frac{\lambda_t}{\lambda_{t - \tau}}, \frac{\lambda_t}{\lambda_{t-\tau}^2} + \frac{\lambda_t^2}{\lambda_{t-\tau}^3}\right)$$<hr>
+<h2 id="4-analytical-derivation-sympy">4. Analytical Derivation (SymPy)</h2>
+<p>To compute the FIM for the parameter set $\theta$, we apply the Gaussian Fisher Information identity. The code below calculates the coefficients $a, b,$ and $c$ representing the information contributions from $\mu$ (previous intensity) and $\nu$ (current intensity).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. Define variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">mu</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;mu nu&#39;</span><span class="p">)</span> <span class="c1"># mu = intensity at t-tau, nu = intensity at t</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>          <span class="c1"># Measurement ratio</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. Define mean and variance of the ratio</span>
+</span></span><span class="line"><span class="cl"><span class="n">mean_X</span> <span class="o">=</span> <span class="n">nu</span> <span class="o">/</span> <span class="n">mu</span>
+</span></span><span class="line"><span class="cl"><span class="n">var_X</span> <span class="o">=</span> <span class="p">(</span><span class="n">nu</span> <span class="o">/</span> <span class="n">mu</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">nu</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">mu</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. Partial derivatives w.r.t mu and nu</span>
+</span></span><span class="line"><span class="cl"><span class="n">dm_dmu</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mean_X</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dm_dnu</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mean_X</span><span class="p">,</span> <span class="n">nu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dv_dmu</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">var_X</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dv_dnu</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">var_X</span><span class="p">,</span> <span class="n">nu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 4. Fisher Information terms for a Gaussian distribution</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># I(theta) = (1/sigma^2) * (d_mu/d_theta)^2 + (1/(2*sigma^4)) * (d_sigma^2/d_theta)^2</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="n">var_X</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dm_dmu</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">var_X</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">dv_dmu</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="n">var_X</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dm_dmu</span> <span class="o">*</span> <span class="n">dm_dnu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">var_X</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">dv_dmu</span> <span class="o">*</span> <span class="n">dv_dnu</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">factor</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="n">var_X</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dm_dnu</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">var_X</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">dv_dnu</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="resulting-information-coefficients">Resulting Information Coefficients</h3>
+<p>The analytical solutions for the FIM components are:</p>
+$$
+\begin{aligned}
+a &= \frac{2 \mu^{2} \nu + 4 \mu^{2} + 2 \mu \nu^{2} + 12 \mu \nu + 9 \nu^{2}}{2 \mu^{2} (\mu + \nu)^{2}} \\
+b &= - \frac{2 \mu^{2} \nu + 2 \mu^{2} + 2 \mu \nu^{2} + 7 \mu \nu + 6 \nu^{2}}{2 \mu \nu (\mu + \nu)^{2}} \\
+c &= \frac{2 \mu^{2} \nu + \mu^{2} + 2 \mu \nu^{2} + 4 \mu \nu + 4 \nu^{2}}{2 \nu^{2} (\mu + \nu)^{2}}
+\end{aligned}
+$$<h2 id="5-numerical-solution-for-an-airy-disk-psf">5. Numerical Solution for an Airy disk PSF.</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">j1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">N_side</span> <span class="o">=</span> <span class="mi">60</span>
+</span></span><span class="line"><span class="cl"><span class="n">pixel_size</span> <span class="o">=</span> <span class="mf">10e-6</span>  <span class="c1"># 10 microns</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span> <span class="o">=</span> <span class="mf">0.05</span>            <span class="c1"># 50mm focal length</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta</span> <span class="o">=</span> <span class="mf">0.1</span>          <span class="c1"># Background photons</span>
+</span></span><span class="line"><span class="cl"><span class="n">wavelength</span> <span class="o">=</span> <span class="mf">550e-9</span> 
+</span></span><span class="line"><span class="cl"><span class="n">aperture</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the sensor coordinate grid (u, v)</span>
+</span></span><span class="line"><span class="cl"><span class="n">half_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">N_side</span> <span class="o">*</span> <span class="n">pixel_size</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">u_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">half_size</span><span class="p">,</span> <span class="n">half_size</span><span class="p">,</span> <span class="n">N_side</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">v_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">half_size</span><span class="p">,</span> <span class="n">half_size</span><span class="p">,</span> <span class="n">N_side</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">u_vals</span><span class="p">,</span> <span class="n">v_vals</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Numerical Evaluation</span>
+</span></span><span class="line"><span class="cl"><span class="n">a_func</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">((</span><span class="n">mu</span><span class="p">,</span> <span class="n">nu</span><span class="p">),</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&#34;numpy&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b_func</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">((</span><span class="n">mu</span><span class="p">,</span> <span class="n">nu</span><span class="p">),</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&#34;numpy&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c_func</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">((</span><span class="n">mu</span><span class="p">,</span> <span class="n">nu</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&#34;numpy&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 3. Numerical Evaluation Setup ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Define test trajectories (Object moving 1mm in x and y)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_tau</span><span class="p">,</span> <span class="n">y_tau</span><span class="p">,</span> <span class="n">z_tau</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>     <span class="c1"># Position at t-tau</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">,</span> <span class="n">z_t</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">1.0</span>      <span class="c1"># Position at t</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Mapping 3D (x,y,z) to 2D sensor coordinates (u0, v0)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">u0</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v0</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">u_grid</span> <span class="o">-</span> <span class="n">u0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">v_grid</span> <span class="o">-</span> <span class="n">v0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Scale factor kappa changes with z (defocus approximation)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.22</span> <span class="o">*</span> <span class="n">wavelength</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="n">aperture</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="o">=</span> <span class="mf">3.8317</span> <span class="o">/</span> <span class="n">w</span> 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">val</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">rho</span>
+</span></span><span class="line"><span class="cl">    <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">psf</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j1</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">/</span> <span class="n">val</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">psf</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">psf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_full_grad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Calculates numerical gradients w.r.t x, y, and z.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># x gradient</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">step</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">step</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># y gradient</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">step</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">step</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># z gradient</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g_z</span> <span class="o">=</span> <span class="p">(</span><span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">step</span><span class="p">)</span> <span class="o">-</span> 
+</span></span><span class="line"><span class="cl">           <span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">step</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">g_z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate intensities (mu, nu) and their gradients</span>
+</span></span><span class="line"><span class="cl"><span class="n">mu_grid</span> <span class="o">=</span> <span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x_tau</span><span class="p">,</span> <span class="n">y_tau</span><span class="p">,</span> <span class="n">z_tau</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta</span>
+</span></span><span class="line"><span class="cl"><span class="n">nu_grid</span> <span class="o">=</span> <span class="n">airy_disk_psf</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">,</span> <span class="n">z_t</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">grad_mu</span> <span class="o">=</span> <span class="n">get_full_grad</span><span class="p">(</span><span class="n">x_tau</span><span class="p">,</span> <span class="n">y_tau</span><span class="p">,</span> <span class="n">z_tau</span><span class="p">)</span>  <span class="c1"># Shape (60, 60, 3)</span>
+</span></span><span class="line"><span class="cl"><span class="n">grad_nu</span> <span class="o">=</span> <span class="n">get_full_grad</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">,</span> <span class="n">z_t</span><span class="p">)</span>        <span class="c1"># Shape (60, 60, 3)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 4. Fisher Information Calculation ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Evaluate a, b, c coefficients across the grid</span>
+</span></span><span class="line"><span class="cl"><span class="n">a_grid</span> <span class="o">=</span> <span class="n">a_func</span><span class="p">(</span><span class="n">mu_grid</span><span class="p">,</span> <span class="n">nu_grid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b_grid</span> <span class="o">=</span> <span class="n">b_func</span><span class="p">(</span><span class="n">mu_grid</span><span class="p">,</span> <span class="n">nu_grid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">c_grid</span> <span class="o">=</span> <span class="n">c_func</span><span class="p">(</span><span class="n">mu_grid</span><span class="p">,</span> <span class="n">nu_grid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Vectorized summation using Einstein summation</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># &#39;uv&#39; indices are pixels, &#39;i&#39;/&#39;j&#39; are the 3D params (x,y,z)</span>
+</span></span><span class="line"><span class="cl"><span class="n">A_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;uv,uvi,uvj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">a_grid</span><span class="p">,</span> <span class="n">grad_mu</span><span class="p">,</span> <span class="n">grad_mu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">C_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;uv,uvi,uvj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">c_grid</span><span class="p">,</span> <span class="n">grad_nu</span><span class="p">,</span> <span class="n">grad_nu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">B_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;uv,uvi,uvj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">b_grid</span><span class="p">,</span> <span class="n">grad_mu</span><span class="p">,</span> <span class="n">grad_nu</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Assemble 6x6 Matrix</span>
+</span></span><span class="line"><span class="cl"><span class="n">I_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="n">A_total</span><span class="p">,</span>   <span class="n">B_total</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="n">B_total</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">C_total</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 5. Result: CRLB ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Invert to get the variance-covariance matrix</span>
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">crlb_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">I_total</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std_devs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">crlb_matrix</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;--- Tracking Precision (Standard Deviation) ---&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Time t-tau: x=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, z=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Time t:     x=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, z=</span><span class="si">{</span><span class="n">std_devs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Matrix is singular! The PSF might be too symmetric or the signal-to-noise is too low.&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="citations">Citations</h2>
+<p>[1] S. Shah et al., “CodedEvents: Optimal Point-Spread-Function Engineering for 3D-Tracking with Event Cameras”.</p>
+
+    </article>
+    <div class="article-nav">
+      <div>
+        
+      </div>
+      <div style="text-align:right;">
+        
+      </div>
+    </div>
+  </div>
+
+      </main>
+
+      <footer class="site-footer">
+  <div class="footer-container">
+    &copy; 2026 Rich Baird • Powered by
+    <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &
+    <a href="https://github.com/Yajie-Xu/hugo-celadon" target="_blank" rel="noopener">Celadon</a>
+  </div>
+</footer>
+
+    </div>
+
+    <script>
+(function () {
+  const storageKey = "morandi-theme";
+  const body = document.body;
+  const toggleButtons = () =>
+    document.querySelectorAll("[data-theme-toggle]");
+
+  const applyTheme = (theme) => {
+    const nextTheme = theme === "dark" ? "dark" : "light";
+    body.setAttribute("data-theme", nextTheme);
+    toggleButtons().forEach((btn) => {
+      const sun = btn.querySelector("[data-icon-sun]");
+      const moon = btn.querySelector("[data-icon-moon]");
+      btn.setAttribute("aria-pressed", nextTheme === "dark");
+      if (sun) sun.style.opacity = nextTheme === "dark" ? "0" : "1";
+      if (moon) moon.style.opacity = nextTheme === "dark" ? "1" : "0";
+    });
+  };
+
+  const stored = localStorage.getItem(storageKey);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(stored || (prefersDark ? "dark" : "light"));
+
+  toggleButtons().forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const next =
+        body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      applyTheme(next);
+      localStorage.setItem(storageKey, next);
+    });
+  });
+})();
+
+(function () {
+  const wrappers = Array.from(document.querySelectorAll("[data-expandable]"));
+  if (!wrappers.length) return;
+
+  wrappers.forEach((wrapper) => {
+    const limit = parseInt(wrapper.dataset.limit, 10);
+    const content = wrapper.querySelector("[data-expandable-content]");
+    const toggle = wrapper.querySelector("[data-expand-toggle]");
+    if (!content || !Number.isFinite(limit)) return;
+    const items = Array.from(content.children);
+    if (items.length <= limit) {
+      if (toggle) toggle.remove();
+      return;
+    }
+
+    if (!toggle) return;
+
+    wrapper.dataset.state = "collapsed";
+    toggle.setAttribute("aria-expanded", "false");
+
+    const applyState = () => {
+      const expanded = wrapper.dataset.state === "expanded";
+      items.forEach((item, index) => {
+        const shouldHide = !expanded && index >= limit;
+        item.classList.toggle("hidden", shouldHide);
+      });
+      toggle.textContent = expanded ? "Show Less ↑" : "Show More ↓";
+      toggle.setAttribute("aria-expanded", expanded.toString());
+    };
+
+    toggle.addEventListener("click", () => {
+      wrapper.dataset.state =
+        wrapper.dataset.state === "expanded" ? "collapsed" : "expanded";
+      applyState();
+    });
+
+    applyState();
+  });
+})();
+</script>
+
+
+    <button id="scroll-top" aria-label="Go to Top">↑</button>
+    
+    <script>
+      (function () {
+        const renderQueuedMath = () => {
+          const attempt = () => {
+            if (
+              typeof window !== "undefined" &&
+              typeof window.renderMathInElement === "function" &&
+              typeof window.katex !== "undefined"
+            ) {
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                  { left: "$$", right: "$$", display: true },
+                  { left: "$", right: "$", display: false },
+                  { left: "\\(", right: "\\)", display: false },
+                  { left: "\\[", right: "\\]", display: true },
+                ],
+                throwOnError: false,
+              });
+              return true;
+            }
+            return false;
+          };
+          const tick = () => {
+            if (!attempt()) {
+              window.requestAnimationFrame(tick);
+            }
+          };
+          tick();
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", renderQueuedMath);
+        } else {
+          renderQueuedMath();
+        }
+
+        document.querySelectorAll(".highlight").forEach(function (highlight) {
+          const codeBlock = highlight.querySelector("td.lntd:last-child pre code");
+          if (!codeBlock) return;
+
+          const langClass = Array.from(codeBlock.classList).find((cls) =>
+            cls.startsWith("language-")
+          );
+          const label = langClass ? langClass.replace("language-", "").toUpperCase() : "CODE";
+
+          const frame = document.createElement("div");
+          frame.className = "code-frame";
+
+          const header = document.createElement("div");
+          header.className = "code-frame__header";
+          const langTag = document.createElement("span");
+          langTag.className = "code-frame__lang";
+          langTag.textContent = label;
+          header.appendChild(langTag);
+
+          const button = document.createElement("button");
+          button.className = "copy-btn";
+          button.ariaLabel = "Copy code";
+          const iconClipboard = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          `;
+          const iconCheck = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          `;
+          button.innerHTML = iconClipboard;
+          header.appendChild(button);
+
+          const body = document.createElement("div");
+          body.className = "code-frame__body";
+          frame.appendChild(header);
+          frame.appendChild(body);
+
+          const parent = highlight.parentNode;
+          highlight.classList.add("code-frame__table");
+          parent.replaceChild(frame, highlight);
+          body.appendChild(highlight);
+
+          button.addEventListener("click", function () {
+            navigator.clipboard.writeText(codeBlock.innerText).then(function () {
+              button.classList.add("copied");
+              button.innerHTML = iconCheck;
+              setTimeout(function () {
+                button.classList.remove("copied");
+                button.innerHTML = iconClipboard;
+              }, 2000);
+            });
+          });
+        });
+      })();
+      (function () {
+        const btn = document.getElementById("scroll-top");
+        if (!btn) return;
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+            btn.classList.add("show-scroll");
+          } else {
+            btn.classList.remove("show-scroll");
+          }
+        });
+        btn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      })();
+    </script>
+  </body>
+</html>

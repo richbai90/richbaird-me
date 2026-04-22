@@ -1,0 +1,25 @@
+papers:
+  - title: "Asynchronous-spectral fusion fluorescence microscopy for microsecond-scale behavioral dynamics"
+    summary: "A demonstration of our novel event fusion architecture to the application of real-time biology."
+    image: "/images/papers/nematode.jpg"
+    date: "2026-03-19"
+    links:
+      - label: "Preprint"
+        url: "https://arxiv.org/abs/2603.18365"
+
+  - title: "Dynamic spectral fluorescence microscopy via event-based & CMOS image-sensor fusion"
+    summary: "A novel widefield fluoresence microscope architecture fusing events from a neuromorphic image sensor with intensity images from a traditional image sensor to image real-time spectrally classified dynamic motion."
+    image: "images/papers/fluorophore.jpg"
+    date: "2025/1/15"
+    links:
+      - label: "Open Access"
+        url: "https://opg.optica.org/oe/fulltext.cfm?uri=oe-33-2-2169"
+
+  - title: "HAMscope: a snapshot Hyperspectral Autofluorescence Miniscope for real-time molecular imaging" 
+    summary: "A compact, snapshot hyperspectral autofluorescence miniscope that enables real-time, label-free molecular imaging. (Co-Author)"
+    image: "/images/papers/diatoms.jpg"
+    date: "2025-11-12"
+    links:
+      - label: "Preprint"
+        url: "https://arxiv.org/abs/2511.09574"
+
