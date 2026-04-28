@@ -3,7 +3,7 @@
   <head><script src="/hugo-celadon/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=hugo-celadon/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Math | Rich Baird</title>
+<title>Wave Optics Cheat Sheet | Rich Baird</title>
 <meta name="description" content="Computational Archaeologist weaving ancient history with modern algorithms.">
 
 <meta name="theme-color" content="#7DA2A9" media="(prefers-color-scheme: light)">
@@ -78,13 +78,83 @@
 
       <main class="main-container">
         
-  <h1>Math</h1>
-  
-  
-    <h2><a href="/hugo-celadon/writing/02-wave-optics-cheat-sheet/">Wave Optics Cheat Sheet</a></h2>
-  
-    <h2><a href="/hugo-celadon/writing/01-cramer-rao/">Fisher Information Analysis of Dynamic Vision Sensors</a></h2>
-  
+  <div class="article-shell">
+    <a class="article-back" href="/hugo-celadon/writing/">← Back</a>
+    <header class="article-head">
+      <p class="article-date">Apr 23, 2026</p>
+      <h1 class="article-title">Wave Optics Cheat Sheet</h1>
+    </header>
+    <article class="article-content markdown-body">
+      <p>In wave optics, light propagation through free space is modeled as a linear, shift-invariant (LTI) system, where lenses and phase masks act as spatial modulators.</p>
+<h3 id="1-free-space-propagation-the-lti-system-view">1. Free-Space Propagation (The LTI System View)</h3>
+<p>Propagation between two parallel planes can be calculated either by spatial convolution (impulse response) or frequency domain multiplication (transfer function).</p>
+<p><strong>Rayleigh-Sommerfeld Diffraction (Spatial Domain)</strong>
+Free space acts as a spatial filter. The field at distance $z$ is the 2D convolution of the initial field with the free-space impulse response $h(x,y,z)$.</p>
+$$U(x,y,z) = U(x,y,0) * h(x,y,z)$$$$h(x,y,z) = \frac{z}{j\lambda} \frac{\exp(j k r)}{r^2}$$<ul>
+<li>$r = \sqrt{x^2 + y^2 + z^2}$ is the distance between source and observation points.</li>
+<li>$k = \frac{2\pi}{\lambda}$ is the wavenumber.</li>
+<li><strong>When to use:</strong> Theoretical formulations for exact scalar diffraction without paraxial restrictions. Rarely used directly in numerical computation due to the highly oscillatory integral.</li>
+</ul>
+<p><strong>Angular Spectrum of Plane Waves (Frequency Domain)</strong></p>
+<p>This is the spatial frequency equivalent of Rayleigh-Sommerfeld. The Fourier transform decomposes the wavefront into a set of plane waves traveling at different angles. The transfer function $H(f_X, f_Y)$ applies a phase delay to each spatial frequency component based on the propagation distance.</p>
+$$U(x,y,z) = \mathcal{F}^{-1}\left\{ \mathcal{F}\{U(x,y,0)\} \cdot H(f_X, f_Y) \right\}$$$$H(f_X, f_Y) = \exp\left(j z \sqrt{k^2 - (2\pi f_X)^2 - (2\pi f_Y)^2}\right)$$<ul>
+<li>$f_X, f_Y$ are spatial frequencies (cycles per unit length).</li>
+<li><strong>When to use:</strong> Numerical simulations of propagation (like in <code>torchoptics</code>). It is exact for scalar fields and highly efficient due to the Fast Fourier Transform (FFT).</li>
+</ul>
+<hr>
+<h3 id="2-paraxial-approximations">2. Paraxial Approximations</h3>
+<p>When the propagation distance $z$ is large compared to the transverse dimensions (the paraxial approximation), the exact distance $r$ is approximated using a binomial expansion.</p>
+<p><strong>Fresnel Diffraction (Near-Field)</strong></p>
+<p>The impulse response simplifies to a quadratic phase factor (a spatial chirp). The field is the convolution of the source with this chirp.</p>
+$$U(x,y,z) = \frac{\exp(jkz)}{j\lambda z} \iint U(\xi,\eta,0) \exp\left( j\frac{k}{2z} [(x-\xi)^2 + (y-\eta)^2] \right) d\xi d\eta$$<ul>
+<li><strong>When to use:</strong> Analytical calculations in the near-field, or evaluating light immediately after it passes through an aperture or lens.</li>
+</ul>
+<p><strong>Fraunhofer Diffraction (Far-Field)</strong>
+As $z$ becomes extremely large, the quadratic phase term across the aperture approaches unity. The diffraction pattern becomes the exact Fourier transform of the aperture, scaled by the propagation distance.</p>
+$$U(x,y,z) = \frac{\exp(jkz) \exp\left[j\frac{k}{2z}(x^2+y^2)\right]}{j\lambda z} \mathcal{F}\{U(\xi,\eta,0)\}\Bigg|_{f_X=\frac{x}{\lambda z}, f_Y=\frac{y}{\lambda z}}$$<ul>
+<li><strong>When to use:</strong> Analyzing far-field patterns (e.g., the Airy disk of a circular aperture) or propagation over macroscopic distances without lenses.</li>
+</ul>
+<hr>
+<h3 id="3-optical-elements-and-operations">3. Optical Elements and Operations</h3>
+<p><strong>Thin Element Approximation</strong>
+A thin optical element modulates the complex amplitude of the incoming wave without spatially shifting the rays.</p>
+$$U_{out}(x,y) = U_{in}(x,y) \cdot A(x,y) \exp(j\phi(x,y))$$<ul>
+<li>$A(x,y)$ represents amplitude attenuation (e.g., an amplitude grating or a binary mask).</li>
+<li>$\phi(x,y)$ represents phase modulation.</li>
+<li><strong>When to use:</strong> Modeling Spatial Light Modulators (SLMs), coded apertures, or custom refractive optics where physical thickness $h(x,y)$ dictates the phase via $\phi(x,y) = \frac{2\pi}{\lambda} (n_{element} - n_{medium}) h(x,y)$.</li>
+</ul>
+<p><strong>Thin Lens Amplitude Transmittance</strong>
+A spherical lens imparts a quadratic phase shift, effectively applying a spatial chirp to the wavefront that either converges or diverges the field.</p>
+$$t_{lens}(x,y) = \exp\left(-j \frac{k}{2f} (x^2 + y^2)\right)$$<ul>
+<li>$f$ is the focal length. Positive $f$ indicates a converging (convex) lens.</li>
+<li><strong>When to use:</strong> Representing ideal lenses in an optical path.</li>
+</ul>
+<p><strong>The Fourier Transforming Property of a Lens</strong></p>
+<p>If an object is placed at the front focal plane of a convex lens, the field at the back focal plane is the exact Fourier Transform of the object, without the residual quadratic phase curvature seen in Fraunhofer diffraction.</p>
+$$U_f(x_f,y_f) = \frac{1}{j\lambda f} \mathcal{F}\{U_0(x_0,y_0)\}\Bigg|_{f_X=\frac{x_f}{\lambda f}, f_Y=\frac{y_f}{\lambda f}}$$<ul>
+<li><strong>When to use:</strong> Designing 4f correlators, optical filters, or computational optical systems that manipulate light in the frequency domain.</li>
+</ul>
+<hr>
+<h3 id="4-observables">4. Observables</h3>
+<p><strong>Intensity</strong>
+Optical sensors operate at timescales far slower than optical frequencies (approx. $10^{14}$ Hz). Therefore, phase is lost, and sensors integrate the absolute square of the complex amplitude over time.</p>
+$$I(x,y) = |U(x,y)|^2 = U(x,y) U^*(x,y)$$<ul>
+<li>$U^*$ is the complex conjugate.</li>
+<li><strong>When to use:</strong> The final step of any forward model before applying sensor noise, quantization, or thresholding constraints.</li>
+</ul>
+
+    </article>
+    <div class="article-nav">
+      <div>
+        
+      </div>
+      <div style="text-align:right;">
+        
+          <a href="/hugo-celadon/writing/01-cramer-rao/">Fisher Information Analysis of Dynamic Vision Sensors →</a>
+        
+      </div>
+    </div>
+  </div>
 
       </main>
 
